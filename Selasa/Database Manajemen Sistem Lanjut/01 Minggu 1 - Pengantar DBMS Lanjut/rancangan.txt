@@ -1,0 +1,66 @@
+tabel:
+  jenis [sudah]
+  satuan [sudah]
+  obat [sudah]
+  pengadaan []
+  pengadaan_detail
+  penjualan
+  distributor
+  penjualan_detail
+  pegawai
+  pelanggan
+
+
+Table jenis{
+  id int [pk, increment]
+  nama varcharacter
+  keterangan text
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+Table satuan{
+  id int [pk, increment]
+  nama varcharacter
+  keterangan text
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+Table obat{
+  id int [pk, increment]
+  nama varcharacter
+  stok int
+  jenis_id int
+  satuan_id int
+  harga_beli bigint
+  harga_jual bigint
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+ref: obat.jenis_id > jenis.id
+ref: obat.satuan_id > satuan.id
+
+Table distributor{
+  id int [pk, increment]
+  nama varcharacter
+  email varchar
+  no_telepon varchar
+  alamat text
+  keterangan text
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+Table pengadaan{
+  id int [pk, increment]
+  pegawai_id int
+  distributor_id int
+  created_at datetime
+  updated_at datetime
+}
