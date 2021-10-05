@@ -1,19 +1,6 @@
-tabel:
-  jenis [sudah]
-  satuan [sudah]
-  obat [sudah]
-  pengadaan []
-  pengadaan_detail
-  penjualan
-  distributor
-  penjualan_detail
-  pegawai
-  pelanggan
-
-
 Table jenis{
   id int [pk, increment]
-  nama varcharacter
+  nama varchar
   keterangan text
   status int [note:'0 Tidak Aktif | 1 Aktif']
   created_at datetime
@@ -22,7 +9,7 @@ Table jenis{
 
 Table satuan{
   id int [pk, increment]
-  nama varcharacter
+  nama varchar
   keterangan text
   status int [note:'0 Tidak Aktif | 1 Aktif']
   created_at datetime
@@ -31,7 +18,7 @@ Table satuan{
 
 Table obat{
   id int [pk, increment]
-  nama varcharacter
+  nama varchar
   stok int
   jenis_id int
   satuan_id int
@@ -47,7 +34,7 @@ ref: obat.satuan_id > satuan.id
 
 Table distributor{
   id int [pk, increment]
-  nama varcharacter
+  nama varchar
   email varchar
   no_telepon varchar
   alamat text
@@ -57,10 +44,75 @@ Table distributor{
   updated_at datetime
 }
 
-Table pengadaan{
+Table pegawai {
   id int [pk, increment]
+  nip varchar
+  nama_depan varchar
+  nama_belakang varchar
+  email varchar
+  password varchar
+  no_telepon varchar
+  alamat text
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+Table pengadaan{
+  kode varchar [pk]
   pegawai_id int
   distributor_id int
   created_at datetime
   updated_at datetime
 }
+
+ref: pengadaan.distributor_id > distributor.id
+ref: pengadaan.pegawai_id > pegawai.id
+
+Table pengadaan_detail{
+  id int [pk, increment]
+  pengadaan_kode varchar
+  obat_id int
+  jumlah int
+  created_at datetime
+  updated_at datetime
+}
+
+ref: pengadaan_detail.pengadaan_kode > pengadaan.kode
+ref: pengadaan_detail.obat_id > obat.id
+
+
+Table pembeli{
+  id int [pk, increment]
+  nama varchar
+  email varchar
+  no_telepon varchar
+  alamat text
+  status int [note:'0 Tidak Aktif | 1 Aktif']
+  created_at datetime
+  updated_at datetime
+}
+
+Table penjualan{
+  kode varchar [pk]
+  pegawai_id int
+  pembeli_id int
+  created_at datetime
+  updated_at datetime
+}
+
+ref: penjualan.pembeli_id > pembeli.id
+ref: penjualan.pegawai_id > pegawai.id
+
+Table penjualan_detail{
+  id int [pk, increment]
+  penjualan_kode varchar
+  obat_id int
+  jumlah int
+  created_at datetime
+  updated_at datetime
+}
+
+ref: penjualan_detail.penjualan_kode > penjualan.kode
+ref: penjualan_detail.obat_id > obat.id
+
